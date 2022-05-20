@@ -1,6 +1,6 @@
 {
   "name": "@matinzd/circleci-orb",
-  "version": "7.3.1",
+  "version": "7.3.2",
   "private": true,
   "description": "A CircleCI Orb which can be used to simplify building and testing React Native apps.",
   "scripts": {

@@ -83,7 +83,7 @@ parameters:
   store_artifact_path:
     description: Stores detox artifacts at CircleCI
     type: string
-    default: ""
+    default: artifacts/e2e
   on_after_initialize:
     description: A custom command to run right after yarn install.
     type: string
