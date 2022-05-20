@@ -13,6 +13,10 @@ parameters:
     description: The version of the Android build tools to install.
     type: string
     default: "28.0.3"
+  emulator_args:
+    description: The additional arguments to be passed to emulator while starting.
+    type: string
+    default: -cores 2 -gpu auto -accel on -memory 1024 -no-audio -no-snapshot -no-boot-anim -no-window
   logcat_grep:
     description: ADB logs will be shown in the "Start Android Emulator" commands, but we filter it using grep to avoid noise. You can specify additional strings to grep for. Make sure you escape special characters.
     type: string
@@ -50,7 +54,7 @@ steps:
       name: Start Android Emulator (background)
       command: |
         $ANDROID_HOME/emulator/emulator @<<parameters.device_name>> -version
-        $ANDROID_HOME/emulator/emulator @<<parameters.device_name>> -cores 2 -gpu auto -accel on -memory 1024 -no-audio -no-snapshot -no-boot-anim -no-window -logcat *:W | grep -i 'ReactNative\|<<parameters.logcat_grep>>'
+        $ANDROID_HOME/emulator/emulator @<<parameters.device_name>> <<parameters.emulator_args>> -logcat *:W | grep -i 'ReactNative\|<<parameters.logcat_grep>>'
       background: true
 
   - run:
