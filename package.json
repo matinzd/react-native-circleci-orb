@@ -1,5 +1,5 @@
 {
-  "name": "@react-native-community/circleci-orb",
+  "name": "@matinzd/circleci-orb",
   "version": "7.0.0",
   "private": true,
   "description": "A CircleCI Orb which can be used to simplify building and testing React Native apps.",
@@ -15,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/react-native-community/react-native-circleci-orb.git"
+    "url": "https://github.com/matinzd/react-native-circleci-orb.git"
   },
   "author": "Matt Oakes <hello@mattoakes.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/react-native-community/react-native-circleci-orb/issues"
+    "url": "https://github.com/matinzd/react-native-circleci-orb/issues"
   },
-  "homepage": "https://github.com/react-native-community/react-native-circleci-orb#readme"
+  "homepage": "https://github.com/matinzd/react-native-circleci-orb#readme"
 }
