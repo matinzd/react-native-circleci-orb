@@ -9,8 +9,18 @@ parameters:
     type: enum
     enum: ["fatal", "error", "warn", "info", "verbose", "trace"]
     default: warn
+  artifacts_location:
+    description: The artifcats location of Detox
+    type: string
+    default: artifacts/e2e/
+  args:
+    description: Additional options to run Detox tests
+    type: string
+    default: ""
 
 steps:
+  - run: Create artifacts folder
+      command: mkdir -p <<parameters.artifacts_location>>
   - run:
       name: Detox Test
-      command: detox test -c <<parameters.configuration>> -l <<parameters.loglevel>> --headless
+      command: detox test -c <<parameters.configuration>> -l <<parameters.loglevel>> --headless --artifacts-location <<parameters.artifacts_location>> <<parameters.args>>
