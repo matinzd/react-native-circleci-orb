@@ -36,6 +36,14 @@ parameters:
     description: The Detox configuration to test. Defaults to 'android.emu.release'.
     type: string
     default: "android.emu.release"
+  detox_args:
+    description: Additional options to run Detox tests.
+    type: string
+    default: ""
+  detox_artifacts_location:
+    description:  The artifcats location of Detox. Defaults to 'artifacts/e2e'.
+    type: string
+    default: artifacts/e2e
   detox_loglevel:
     description: The Detox logging level to use. Must be one of "fatal", "error", "warn", "info", "verbose", or "trace".
     type: enum
@@ -121,6 +129,8 @@ steps:
   - detox_test:
       configuration: <<parameters.detox_configuration>>
       loglevel: <<parameters.detox_loglevel>>
+      artifacts_location: <<parameters.detox_artifacts_location>>
+      args: <<parameters.detox_args>>
   - when:
       condition: <<parameters.store_artifact_path>>
       steps:

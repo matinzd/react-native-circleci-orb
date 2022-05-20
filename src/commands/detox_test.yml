@@ -10,9 +10,9 @@ parameters:
     enum: ["fatal", "error", "warn", "info", "verbose", "trace"]
     default: warn
   artifacts_location:
-    description: The artifcats location of Detox
+    description: The artifcats location of Detox. Defaults to 'artifacts/e2e'.
     type: string
-    default: artifacts/e2e/
+    default: artifacts/e2e
   args:
     description: Additional options to run Detox tests
     type: string
