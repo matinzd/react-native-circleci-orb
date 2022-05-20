@@ -72,6 +72,14 @@ parameters:
     type: enum
     enum: ["fatal", "error", "warn", "info", "verbose", "trace"]
     default: warn
+  detox_args:
+    description: Additional options to run Detox tests.
+    type: string
+    default: ""
+  detox_artifacts_location:
+    description:  The artifcats location of Detox. Defaults to 'artifacts/e2e'.
+    type: string
+    default: artifacts/e2e
   store_artifact_path:
     description: Stores detox artifacts at CircleCI
     type: string
@@ -153,6 +161,8 @@ steps:
   - detox_test:
       configuration: <<parameters.detox_configuration>>
       loglevel: <<parameters.detox_loglevel>>
+      args: <<parameters.detox_args>>
+      artifacts_location: <<parameters.detox_artifacts_location>>
   - when:
       condition: <<parameters.store_artifact_path>>
       steps:
