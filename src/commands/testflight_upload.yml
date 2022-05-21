@@ -1,10 +1,10 @@
-description: Uploads IPA to app store connect.
+description: Uploads IPA to app store connect for testflight.
 
 parameters:
   ipa_file:
     description: Path to app archive.
+    default: $IPA_PATH
     type: string
-    required: true
 
 steps:
   - run:

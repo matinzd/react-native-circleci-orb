@@ -100,7 +100,7 @@ parameters:
     type: string
     default: ""
   upload_to_testflight:
-    description: Should we upload to TestFlight? Defaults to false
+    description: Should we upload to TestFlight? Defaults to false.
     type: boolean
     default: false
   xcode_version:
@@ -175,5 +175,4 @@ steps:
   - when:
       condition: <<parameters.upload_to_testflight>>
       steps:
-        - testflight_upload:
-            ipa_file: $IPA_PATH
+        - testflight_upload

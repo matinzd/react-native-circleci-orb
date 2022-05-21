@@ -82,10 +82,10 @@ steps:
             name: Archive iOS App
             command: |
               xcodebuild -exportArchive -archivePath /tmp/App.xcarchive -exportPath /tmp/exports -exportOptionsPlist <<parameters.export_options>>
-        -run:
+        - run:
             name: Find IPA path
             command: |
-              ipa_file_path=$(find /tmp/exports -name *.ipa | head -n 1)
+              ipa_file_path=$(find /tmp/exports -iname '*.ipa' | head -n 1)
               echo "export IPA_PATH=$ipa_file_path" >> $BASH_ENV
               source $BASH_ENV
         - store_artifacts:
