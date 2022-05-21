@@ -67,11 +67,12 @@ steps:
                   -parallelizeTargets \
                   -derivedDataPath <<parameters.derived_data_path>> \
                   -UseModernBuildSystem=YES \
+                  -sdk iphoneos \
                   -archivePath /tmp/App.xcarchive \
                   clean archive \
                   CODE_SIGN_STYLE=Manual \
-                  CODE_SIGN_IDENTITY=$CODE_SIGNING_IDENTITY \
-                  PROVISIONING_PROFILE=$PROVISIONING_PROFILE_UUID \
+                  CODE_SIGN_IDENTITY="$CODE_SIGNING_IDENTITY" \
+                  PROVISIONING_PROFILE="$PROVISIONING_PROFILE_UUID" \
                 | xcpretty -k
 
   - when:
