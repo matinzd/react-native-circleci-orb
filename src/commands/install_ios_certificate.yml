@@ -29,7 +29,7 @@ steps:
           security import $certificate_path -P <<parameters.certificate_pwd>> -A -t cert -f pkcs12 -k $temp_keychain_path
 
           
-          openssl pkcs12 -in certificate_path -out /tmp/step1.openssl -nokeys -passin pass:<<parameters.certificate_pwd>>
+          openssl pkcs12 -in $certificate_path -out /tmp/step1.openssl -nokeys -passin pass:<<parameters.certificate_pwd>>
           cn=$(openssl x509 -in /tmp/step1.openssl -noout -subject | sed -n '/^subject/s/^.*CN=//p' | sed 's/\/OU=.*//')
 
           echo "Common Name: $cn"
