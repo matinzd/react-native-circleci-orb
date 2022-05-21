@@ -52,35 +52,35 @@ steps:
         not: <<parameters.export>>
       steps:
           - run:
-            name: Build iOS App
-            command: "export RCT_NO_LAUNCH_PACKAGER=true && xcodebuild -<<parameters.project_type>> <<parameters.project_path>> -destination 'platform=iOS Simulator,name=<<parameters.device>>' -scheme <<parameters.scheme>> -parallelizeTargets -configuration <<parameters.build_configuration>> -derivedDataPath <<parameters.derived_data_path>>  -UseModernBuildSystem=YES | xcpretty -k"
+              name: Build iOS App
+              command: "export RCT_NO_LAUNCH_PACKAGER=true && xcodebuild -<<parameters.project_type>> <<parameters.project_path>> -destination 'platform=iOS Simulator,name=<<parameters.device>>' -scheme <<parameters.scheme>> -parallelizeTargets -configuration <<parameters.build_configuration>> -derivedDataPath <<parameters.derived_data_path>>  -UseModernBuildSystem=YES | xcpretty -k"
 
   - when:
       condition: <<parameters.export>>
       steps:
           - run:
-            name: Build Signed iOS App
-            command: |
-              xcodebuild -<<parameters.project_type>> <<parameters.project_path>> \
-                -scheme <<parameters.scheme>> \
-                -configuration <<parameters.build_configuration>> \
-                -parallelizeTargets \
-                -derivedDataPath <<parameters.derived_data_path>> \
-                -UseModernBuildSystem=YES \
-                -archivePath /tmp/App.xcarchive \
-                clean archive \
-                CODE_SIGN_STYLE=Manual \
-                CODE_SIGN_IDENTITY=$CODE_SIGNING_IDENTITY \
-                PROVISIONING_PROFILE=$PROVISIONING_PROFILE_UUID \
-              | xcpretty -k
+              name: Build Signed iOS App
+              command: |
+                xcodebuild -<<parameters.project_type>> <<parameters.project_path>> \
+                  -scheme <<parameters.scheme>> \
+                  -configuration <<parameters.build_configuration>> \
+                  -parallelizeTargets \
+                  -derivedDataPath <<parameters.derived_data_path>> \
+                  -UseModernBuildSystem=YES \
+                  -archivePath /tmp/App.xcarchive \
+                  clean archive \
+                  CODE_SIGN_STYLE=Manual \
+                  CODE_SIGN_IDENTITY=$CODE_SIGNING_IDENTITY \
+                  PROVISIONING_PROFILE=$PROVISIONING_PROFILE_UUID \
+                | xcpretty -k
 
   - when:
       condition: <<parameters.export>>
       steps:
         - run:
-          name: Archive iOS App
-          command: |
-            xcodebuild -exportArchive -archivePath /tmp/App.xcarchive -exportPath /tmp/exports -exportOptionsPlist <<parameters.export_options>>
+            name: Archive iOS App
+            command: |
+              xcodebuild -exportArchive -archivePath /tmp/App.xcarchive -exportPath /tmp/exports -exportOptionsPlist <<parameters.export_options>>
         - store_artifacts:
             path: /tmp/exports
 
