@@ -1,0 +1,13 @@
+description: Uploads IPA to app store connect.
+
+parameters:
+  ipa_file:
+    description: Path to app archive.
+    type: string
+    required: true
+
+steps:
+  - run:
+      name: Upload to App Store
+      command: |
+          xcrun altool --upload-app --type ios --file <<parameters.ipa_file>> -u $APPSTORE_CONNECT_USERNAME -p @env:APPSTORE_CONNECT_PASSWORD --show-progress

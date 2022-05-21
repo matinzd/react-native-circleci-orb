@@ -99,6 +99,10 @@ parameters:
     description: Export options for IPA.
     type: string
     default: ""
+  upload_to_testflight:
+    description: Should we upload to TestFlight? Defaults to false
+    type: boolean
+    default: false
   xcode_version:
     description: The version of Xcode to use. See here for the list of supported versions https://circleci.com/docs/2.0/testing-ios/#supported-xcode-versions
     type: string
@@ -168,3 +172,8 @@ steps:
       cache: <<parameters.xcodebuild_cache>>
       export: <<parameters.export>>
       export_options: <<parameters.export_options>>
+  - when:
+      condition: <<parameters.upload_to_testflight>>
+      steps:
+        - testflight_upload:
+            ipa_file: $IPA_PATH
