@@ -17,7 +17,7 @@ steps:
 
           base64 -d -i $base64_path -o $provisioning_profile_path
 
-          mobileprovision_uuid=`/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(/usr/bin/security cms -D -i $provisioning_profile_path)`
+          mobileprovision_uuid=`/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin \<<< $(/usr/bin/security cms -D -i $provisioning_profile_path)`
           echo "UUID Found: $mobileprovision_uuid"
 
           output="$HOME/Library/MobileDevice/Provisioning Profiles/$mobileprovision_uuid.mobileprovision"
@@ -26,6 +26,8 @@ steps:
           source $BASH_ENV
 
           echo "Copy from $provisioning_profile_path to $output"
+
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
 
           cp "$provisioning_profile_path" "$output"
 

@@ -14,12 +14,26 @@ steps:
       command: |
         if [[ $OSTYPE == 'darwin'* ]]; then
           base64_path=/tmp/certificate.base64
+          temp_keychain_path=/tmp/ios_signing_temp.keychain
+          temp_keychain_password=$(openssl rand -base64 12)
           certificate_path=/tmp/certificate.p12
 
           echo <<parameters.base64_encoded_certificate>> >> $base64_path
 
           base64 -d -i $base64_path -o $certificate_path
 
-          security unlock-keychain
-          security import $certificate_path -k ~/Library/Keychains/login.keychain -P <<parameters.certificate_pwd>> -T /usr/bin/codesign
+          security create-keychain -p $temp_keychain_password $temp_keychain_path
+          security set-keychain-settings -lut 21600 $temp_keychain_path
+
+          security unlock-keychain -p $temp_keychain_password $temp_keychain_path
+          security import $certificate_path -P <<parameters.certificate_pwd>> -A -t cert -f pkcs12 -k $temp_keychain_path
+
+          
+          openssl pkcs12 -in certificate_path -out /tmp/step1.openssl -nokeys -passin pass:<<parameters.certificate_pwd>>
+          cn=$(openssl x509 -in /tmp/step1.openssl -noout -subject | sed -n '/^subject/s/^.*CN=//p' | sed 's/\/OU=.*//')
+
+          echo "Common Name: $cn"
+
+          echo "export CODE_SIGNING_IDENTITY=$cn" >> $BASH_ENV
+          source $BASH_ENV
         fi
