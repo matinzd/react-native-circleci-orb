@@ -1,0 +1,25 @@
+description: Installs iOS certificate on the MacOS machine keychain.
+
+parameters:
+  base64_encoded_certificate:
+    description: Base64 encoded version of p12 certificate.
+    type: string
+  certificate_pwd:
+    description: Certificate password.
+    type: string
+
+steps:
+  - run:
+      name: Install p12 certificate and unlock keychain
+      command: |
+        if [[ $OSTYPE == 'darwin'* ]]; then
+          base64_path=/tmp/certificate.base64
+          certificate_path=/tmp/certificate.p12
+
+          echo <<parameters.base64_encoded_certificate>> >> $base64_path
+
+          base64 -d -i $base64_path -o $certificate_path
+
+          security unlock-keychain
+          security import $certificate_path -k ~/Library/Keychains/login.keychain -P <<parameters.certificate_pwd>> -T /usr/bin/codesign
+        fi

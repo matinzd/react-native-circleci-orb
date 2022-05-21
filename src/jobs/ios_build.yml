@@ -79,6 +79,18 @@ parameters:
     description: Should we run brew update? Defaults to true
     type: boolean
     default: true
+  base64_encoded_provisioning_profile:
+    description: Base64 encoded version of provisioning profile, If provided it will install provisioning profile.
+    type: string
+    default: ""
+  base64_encoded_certificate:
+    description: Base64 encoded version of p12 certificate.
+    type: string
+    default: ""
+  certificate_pwd:
+    description: Certificate password.
+    type: string
+    default: ""
   xcode_version:
     description: The version of Xcode to use. See here for the list of supported versions https://circleci.com/docs/2.0/testing-ios/#supported-xcode-versions
     type: string
@@ -126,6 +138,17 @@ steps:
         - pod_install:
             pod_install_directory: <<parameters.pod_install_directory>>
             cache: <<parameters.pod_cache>>
+  - when:
+      condition: <<parameters.base64_encoded_provisioning_profile>>
+      steps:
+        - install_ios_provisioning_profile:
+            base64_encoded_provisioning_profile: <<parameters.base64_encoded_provisioning_profile>>
+  - when:
+      condition: <<parameters.base64_encoded_certificate>>
+      steps:
+        - install_ios_certificate:
+            base64_encoded_certificate: <<parameters.base64_encoded_certificate>>
+            certificate_pwd: <<parameters.certificate_pwd>>
   - ios_build:
       project_path: <<parameters.project_path>>
       derived_data_path: <<parameters.derived_data_path>>
