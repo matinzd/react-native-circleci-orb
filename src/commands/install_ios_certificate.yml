@@ -30,10 +30,10 @@ steps:
 
           
           openssl pkcs12 -in $certificate_path -out /tmp/step1.openssl -nokeys -passin pass:<<parameters.certificate_pwd>>
-          cn=$(openssl x509 -in /tmp/step1.openssl -noout -subject | sed -n '/^subject/s/^.*CN=//p' | sed 's/\/OU=.*//')
+          CN=$(openssl x509 -in /tmp/step1.openssl -noout -subject | sed -n '/^subject/s/^.*CN=//p' | sed 's/\/OU=.*//')
 
-          echo "Common Name: $cn"
+          echo "Common Name: $CN"
 
-          echo "export CODE_SIGNING_IDENTITY=$cn" >> $BASH_ENV
+          echo "export CODE_SIGNING_IDENTITY='$CN'" >> $BASH_ENV
           source $BASH_ENV
         fi

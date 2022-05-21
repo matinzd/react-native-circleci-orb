@@ -91,6 +91,14 @@ parameters:
     description: Certificate password.
     type: string
     default: ""
+  export:
+    description: Whether to export the archive or not.
+    type: boolean
+    default: false
+  export_options:
+    description: Export options for IPA.
+    type: string
+    default: ""
   xcode_version:
     description: The version of Xcode to use. See here for the list of supported versions https://circleci.com/docs/2.0/testing-ios/#supported-xcode-versions
     type: string
@@ -157,3 +165,5 @@ steps:
       scheme: <<parameters.scheme>>
       project_type: <<parameters.project_type>>
       cache: <<parameters.xcodebuild_cache>>
+      export: <<parameters.export>>
+      export_options: <<parameters.export_options>>
