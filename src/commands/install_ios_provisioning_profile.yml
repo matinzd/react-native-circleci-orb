@@ -18,11 +18,18 @@ steps:
           base64 -d -i $base64_path -o $provisioning_profile_path
 
           mobileprovision_uuid=`/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin \<<< $(/usr/bin/security cms -D -i $provisioning_profile_path)`
+          mobileprovision_specifier=`/usr/libexec/PlistBuddy -c "Print Name" /dev/stdin \<<< $(/usr/bin/security cms -D -i $provisioning_profile_path)`
+          team_identifier=`/usr/libexec/PlistBuddy -c "Print TeamIdentifier:0" /dev/stdin \<<< $(/usr/bin/security cms -D -i $provisioning_profile_path)`
+          team_name=`/usr/libexec/PlistBuddy -c "Print TeamName" /dev/stdin \<<< $(/usr/bin/security cms -D -i $provisioning_profile_path)`
+          
           echo "UUID Found: $mobileprovision_uuid"
 
           output="$HOME/Library/MobileDevice/Provisioning Profiles/$mobileprovision_uuid.mobileprovision"
 
           echo "export PROVISIONING_PROFILE_UUID=$mobileprovision_uuid" >> $BASH_ENV
+          echo "export PROVISIONING_PROFILE_SPECIFIER=$mobileprovision_specifier" >> $BASH_ENV
+          echo "export TEAM_IDENTIFIER=$team_identifier" >> $BASH_ENV
+          echo "export TEAM_NAME=$team_name" >> $BASH_ENV
           source $BASH_ENV
 
           echo "Copy from $provisioning_profile_path to $output"

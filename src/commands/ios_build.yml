@@ -59,6 +59,21 @@ steps:
       condition: <<parameters.export>>
       steps:
           - run:
+              name: Override default pbxproj signing options.
+              command: |
+                CODE_SIGN_STYLE="Manual"
+                ProvisioningStyle="Manual"
+
+                pbxproj_path=$(find ./ios -name '*.xcodeproj' -d 1)/project.pbxproj
+
+                sed -i '' "/CODE_SIGN_IDENTITY\[sdk=macosx\*\]/d" pbxproj_path
+                sed -i '' "/PROVISIONING_PROFILE_SPECIFIER\[sdk=macosx\*\]/d" pbxproj_path
+                sed -i '' "s/DEVELOPMENT_TEAM = .*/DEVELOPMENT_TEAM = $TEAM_IDENTIFIER;/g" pbxproj_path 
+                sed -i '' "s/PROVISIONING_PROFILE_SPECIFIER = .*/PROVISIONING_PROFILE_SPECIFIER = $PROVISIONING_PROFILE_SPECIFIER;/g" pbxproj_path 
+                sed -i '' "s/CODE_SIGN_STYLE = .*/CODE_SIGN_STYLE = $CODE_SIGN_STYLE;/g" pbxproj_path 
+                sed -i '' "s/CODE_SIGN_IDENTITY = .*/CODE_SIGN_IDENTITY = \"$CODE_SIGN_IDENTITY\";/g" pbxproj_path 
+                sed -i '' "s/ProvisioningStyle = .*/ProvisioningStyle = $ProvisioningStyle;/g" pbxproj_path 
+          - run:
               name: Build Signed iOS App
               command: |
                 xcodebuild -<<parameters.project_type>> <<parameters.project_path>> \
